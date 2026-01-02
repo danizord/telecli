@@ -1,0 +1,15 @@
+{
+  "name": "telecli",
+  "version": "1.0.0",
+  "type": "module",
+  "bin": {
+    "tg": "./src/index.ts"
+  },
+  "scripts": {
+    "test": "bun test",
+    "tg": "bun run src/index.ts"
+  },
+  "devDependencies": {
+    "bun-types": "^1.3.5"
+  }
+}
