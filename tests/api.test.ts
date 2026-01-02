@@ -24,9 +24,7 @@ describe("API Client", () => {
       await callApi("getMe");
       expect(true).toBe(false); // Should not reach here
     } catch (err) {
-      expect((err as Error).message).toBe(
-        "TELEGRAM_BOT_TOKEN environment variable is not set"
-      );
+      expect((err as Error).message).toContain("Bot token not found");
     } finally {
       process.env.TELEGRAM_BOT_TOKEN = token;
     }
