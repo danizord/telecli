@@ -14,10 +14,15 @@ bun add -g telecli
 bun add -g github:danizord/telecli
 ```
 
-After installation, the `tg` command will be available globally:
+After installation, configure your token once:
 
 ```bash
-export TELEGRAM_BOT_TOKEN="your_token_here"
+tg config token YOUR_BOT_TOKEN
+```
+
+Then use the `tg` command from anywhere:
+
+```bash
 tg me
 ```
 
@@ -174,11 +179,27 @@ Errors:
 {"ok": false, "error": "description"}
 ```
 
-## Environment Variables
+## Configuration
 
-| Variable | Description |
-|----------|-------------|
-| `TELEGRAM_BOT_TOKEN` | Your Telegram bot token (required) |
+### Token Setup (Recommended)
+
+Store your token once:
+
+```bash
+tg config token YOUR_BOT_TOKEN
+```
+
+The token is saved to `~/.telecli/config.json`.
+
+### Environment Variable (Alternative)
+
+You can also use an environment variable:
+
+```bash
+export TELEGRAM_BOT_TOKEN="your_token_here"
+```
+
+The CLI checks the environment variable first, then falls back to the config file.
 
 **Getting a bot token:**
 1. Open Telegram and message [@BotFather](https://t.me/botfather)

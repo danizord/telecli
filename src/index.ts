@@ -139,6 +139,7 @@ import {
   approveChatJoinRequest,
   declineChatJoinRequest,
 } from "./commands/invite";
+import { configToken, configPath } from "./commands/config";
 
 function output(data: unknown) {
   console.log(JSON.stringify(data, null, 2));
@@ -154,6 +155,12 @@ function usage() {
 Telegram Bot CLI - Full API Support
 
 Usage: tg <command> [subcommand] [options]
+
+═══════════════════════════════════════════════════════════════════════════════
+CONFIGURATION
+═══════════════════════════════════════════════════════════════════════════════
+  config token [token]            Get or set bot token (stored in ~/.telecli/)
+  config path                     Show config file path
 
 ═══════════════════════════════════════════════════════════════════════════════
 BOT INFO & MANAGEMENT
@@ -1385,6 +1392,21 @@ async function main() {
       case "photos": {
         const userId = parseInt(positional[0]);
         output(await getUserProfilePhotos({ user_id: userId }));
+        break;
+      }
+
+      case "config": {
+        const sub = positional[0];
+        switch (sub) {
+          case "token":
+            configToken(positional[1]);
+            break;
+          case "path":
+            configPath();
+            break;
+          default:
+            error("Usage: tg config <token|path>");
+        }
         break;
       }
 

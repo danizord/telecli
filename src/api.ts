@@ -1,13 +1,52 @@
 import type { ApiResponse } from "./types";
+import { existsSync, readFileSync, writeFileSync, mkdirSync } from "fs";
+import { homedir } from "os";
+import { join } from "path";
 
 const BASE_URL = "https://api.telegram.org/bot";
+const CONFIG_DIR = join(homedir(), ".telecli");
+const CONFIG_FILE = join(CONFIG_DIR, "config.json");
+
+interface Config {
+  token?: string;
+}
+
+export function getConfig(): Config {
+  if (existsSync(CONFIG_FILE)) {
+    try {
+      return JSON.parse(readFileSync(CONFIG_FILE, "utf-8"));
+    } catch {
+      return {};
+    }
+  }
+  return {};
+}
+
+export function setConfig(config: Config): void {
+  if (!existsSync(CONFIG_DIR)) {
+    mkdirSync(CONFIG_DIR, { recursive: true });
+  }
+  writeFileSync(CONFIG_FILE, JSON.stringify(config, null, 2));
+}
 
 function getToken(): string {
-  const token = process.env.TELEGRAM_BOT_TOKEN;
-  if (!token) {
-    throw new Error("TELEGRAM_BOT_TOKEN environment variable is not set");
+  // First check env var
+  const envToken = process.env.TELEGRAM_BOT_TOKEN;
+  if (envToken) {
+    return envToken;
   }
-  return token;
+
+  // Then check config file
+  const config = getConfig();
+  if (config.token) {
+    return config.token;
+  }
+
+  throw new Error(
+    "Bot token not found. Set it with:\n" +
+    "  tg config token <your_token>\n" +
+    "Or use the TELEGRAM_BOT_TOKEN environment variable."
+  );
 }
 
 export async function callApi<T>(
