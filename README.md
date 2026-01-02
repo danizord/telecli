@@ -4,26 +4,36 @@ A thin, zero-dependency CLI wrapper around the Telegram Bot API. Built with Bun 
 
 ## Installation
 
+### Global Install (Recommended)
+
 ```bash
-# Clone the repo
+# Install globally via bun
+bun add -g telecli
+
+# Or install directly from GitHub
+bun add -g github:danizord/telecli
+```
+
+After installation, the `tg` command will be available globally:
+
+```bash
+export TELEGRAM_BOT_TOKEN="your_token_here"
+tg me
+```
+
+### From Source
+
+```bash
 git clone https://github.com/danizord/telecli.git
 cd telecli
-
-# Install dependencies
 bun install
-
-# Set your bot token (get one from @BotFather: https://t.me/botfather)
-export TELEGRAM_BOT_TOKEN="your_token_here"
+bun link  # Makes 'tg' available globally
 ```
 
 ## Usage
 
 ```bash
-# Using bun
-bun run src/index.ts <command> [options]
-
-# Or with the npm script
-bun run tg <command> [options]
+tg <command> [options]
 ```
 
 ## Quick Start
