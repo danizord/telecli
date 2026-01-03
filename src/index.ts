@@ -1524,13 +1524,13 @@ async function main() {
         const sub = positional[0];
         switch (sub) {
           case "token":
-            configToken(positional[1]);
+            configToken(positional[1], "local" in flags);
             break;
           case "path":
             configPath();
             break;
           default:
-            error("Usage: tg config <token|path>");
+            error("Usage: tg config <token|path> [--local]");
         }
         break;
       }

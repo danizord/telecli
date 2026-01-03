@@ -4,17 +4,21 @@ import { homedir } from "os";
 import { join } from "path";
 
 const BASE_URL = "https://api.telegram.org/bot";
-const CONFIG_DIR = join(homedir(), ".telecli");
-const CONFIG_FILE = join(CONFIG_DIR, "config.json");
+
+// Config paths
+const LOCAL_CONFIG_DIR = join(process.cwd(), ".telecli");
+const LOCAL_CONFIG_FILE = join(LOCAL_CONFIG_DIR, "config.json");
+const GLOBAL_CONFIG_DIR = join(homedir(), ".telecli");
+const GLOBAL_CONFIG_FILE = join(GLOBAL_CONFIG_DIR, "config.json");
 
 interface Config {
   token?: string;
 }
 
-export function getConfig(): Config {
-  if (existsSync(CONFIG_FILE)) {
+function readConfigFile(path: string): Config {
+  if (existsSync(path)) {
     try {
-      return JSON.parse(readFileSync(CONFIG_FILE, "utf-8"));
+      return JSON.parse(readFileSync(path, "utf-8"));
     } catch {
       return {};
     }
@@ -22,29 +26,57 @@ export function getConfig(): Config {
   return {};
 }
 
-export function setConfig(config: Config): void {
-  if (!existsSync(CONFIG_DIR)) {
-    mkdirSync(CONFIG_DIR, { recursive: true });
+export function getLocalConfig(): Config {
+  return readConfigFile(LOCAL_CONFIG_FILE);
+}
+
+export function getGlobalConfig(): Config {
+  return readConfigFile(GLOBAL_CONFIG_FILE);
+}
+
+export function getConfig(): Config {
+  // Merge: local overrides global
+  return { ...getGlobalConfig(), ...getLocalConfig() };
+}
+
+export function setConfig(config: Config, local: boolean = false): void {
+  const configDir = local ? LOCAL_CONFIG_DIR : GLOBAL_CONFIG_DIR;
+  const configFile = local ? LOCAL_CONFIG_FILE : GLOBAL_CONFIG_FILE;
+
+  if (!existsSync(configDir)) {
+    mkdirSync(configDir, { recursive: true });
   }
-  writeFileSync(CONFIG_FILE, JSON.stringify(config, null, 2));
+
+  // Merge with existing config
+  const existing = readConfigFile(configFile);
+  writeFileSync(configFile, JSON.stringify({ ...existing, ...config }, null, 2));
+}
+
+export function getConfigPaths(): { local: string; global: string } {
+  return { local: LOCAL_CONFIG_FILE, global: GLOBAL_CONFIG_FILE };
 }
 
 function getToken(): string {
-  // First check env var
+  // Priority: env var > local config > global config
   const envToken = process.env.TELEGRAM_BOT_TOKEN;
   if (envToken) {
     return envToken;
   }
 
-  // Then check config file
-  const config = getConfig();
-  if (config.token) {
-    return config.token;
+  const localConfig = getLocalConfig();
+  if (localConfig.token) {
+    return localConfig.token;
+  }
+
+  const globalConfig = getGlobalConfig();
+  if (globalConfig.token) {
+    return globalConfig.token;
   }
 
   throw new Error(
     "Bot token not found. Set it with:\n" +
-      "  tg config token <your_token>\n" +
+      "  tg config token <your_token>         # global\n" +
+      "  tg config token <your_token> --local # local (./.telecli/)\n" +
       "Or use the TELEGRAM_BOT_TOKEN environment variable.",
   );
 }

@@ -1,29 +1,50 @@
-import { getConfig, setConfig } from "../api";
-import { homedir } from "os";
-import { join } from "path";
+import { getLocalConfig, getGlobalConfig, setConfig, getConfigPaths } from "../api";
 
-const CONFIG_FILE = join(homedir(), ".telecli", "config.json");
+export function configToken(token?: string, local: boolean = false): void {
+  const paths = getConfigPaths();
 
-export function configToken(token?: string): void {
   if (token) {
     // Set token
-    const config = getConfig();
-    config.token = token;
-    setConfig(config);
-    console.log(JSON.stringify({ ok: true, message: `Token saved to ${CONFIG_FILE}` }));
+    setConfig({ token }, local);
+    const savedTo = local ? paths.local : paths.global;
+    console.log(JSON.stringify({ ok: true, message: `Token saved to ${savedTo}` }));
   } else {
-    // Get token
-    const config = getConfig();
-    if (config.token) {
-      // Mask the token for security
-      const masked = config.token.slice(0, 5) + "..." + config.token.slice(-5);
-      console.log(JSON.stringify({ ok: true, token: masked }));
-    } else {
-      console.log(JSON.stringify({ ok: false, error: "No token configured" }));
+    // Get token info
+    const localConfig = getLocalConfig();
+    const globalConfig = getGlobalConfig();
+
+    const result: Record<string, unknown> = { ok: true };
+
+    if (localConfig.token) {
+      result.local = {
+        path: paths.local,
+        token: localConfig.token.slice(0, 5) + "..." + localConfig.token.slice(-5),
+      };
     }
+
+    if (globalConfig.token) {
+      result.global = {
+        path: paths.global,
+        token: globalConfig.token.slice(0, 5) + "..." + globalConfig.token.slice(-5),
+      };
+    }
+
+    if (!localConfig.token && !globalConfig.token) {
+      result.ok = false;
+      result.error = "No token configured";
+    }
+
+    console.log(JSON.stringify(result));
   }
 }
 
 export function configPath(): void {
-  console.log(JSON.stringify({ ok: true, path: CONFIG_FILE }));
+  const paths = getConfigPaths();
+  console.log(
+    JSON.stringify({
+      ok: true,
+      local: paths.local,
+      global: paths.global,
+    }),
+  );
 }
