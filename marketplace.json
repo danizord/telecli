@@ -1,0 +1,12 @@
+{
+  "plugins": [
+    {
+      "name": "telecli",
+      "version": "1.0.0",
+      "description": "Telegram Bot CLI integration for Claude Code with automatic polling, hooks, and comprehensive skill",
+      "path": "./plugin",
+      "keywords": ["telegram", "bot", "cli", "polling", "messaging"],
+      "category": "integrations"
+    }
+  ]
+}

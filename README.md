@@ -206,45 +206,68 @@ The CLI checks the environment variable first, then falls back to the config fil
 2. Send `/newbot` and follow the prompts
 3. Copy the token (looks like `123456789:ABCdefGHIjklmNOpqrsTUVwxyz`)
 
+## Claude Code Plugin
+
+This repo includes a Claude Code plugin that provides:
+
+- **Skill**: Comprehensive telecli usage guide with command reference
+- **Commands**: `/telegram-poll`, `/telegram-send`, `/telegram-status`
+- **Hooks**: Automatic polling with Stop hook to prevent exit when messages pending
+
+### Installation
+
+Add this repo as a marketplace and install the plugin:
+
+```bash
+# In Claude Code, run:
+/plugin marketplace add danizord/telecli
+/plugin install telecli@danizord/telecli
+```
+
+Or install directly from GitHub:
+
+```bash
+/plugin install danizord/telecli
+```
+
+### Plugin Features
+
+**Automatic Polling**: The Stop hook checks for pending Telegram updates before Claude exits. If new messages are waiting, Claude will continue processing them.
+
+**Commands**:
+- `/telegram-poll` - Start/stop polling loop
+- `/telegram-send` - Quick message send
+- `/telegram-status` - Show bot and polling status
+
+**Skill**: Claude automatically learns how to use the `tg` CLI when you ask it to interact with Telegram.
+
+### Plugin Structure
+
+```
+plugin/
+├── .claude-plugin/
+│   └── plugin.json        # Plugin manifest
+├── commands/              # Slash commands
+│   ├── telegram-poll.md
+│   ├── telegram-send.md
+│   └── telegram-status.md
+├── hooks/
+│   ├── hooks.json         # Hook configuration
+│   └── scripts/           # Hook scripts
+└── skills/
+    └── telecli/
+        ├── SKILL.md       # Main skill
+        └── references/    # Command reference
+```
+
 ## AI Agent Integration
 
-This CLI is designed for AI agents to control Telegram bots. Key features:
+This CLI is designed for AI agents to control Telegram bots:
 
 - **JSON output**: Machine-readable responses for parsing
 - **Simple commands**: One command per operation
 - **Comprehensive coverage**: Full Telegram Bot API support
 - **No dependencies**: Just Bun and the Telegram API
-
-### Installing the Skill (Claude Code)
-
-The `skill/` directory contains a Claude Code skill that teaches AI agents how to use this CLI.
-
-**Option 1: Copy to your skills directory**
-```bash
-cp -r skill/ ~/.claude/skills/telecli/
-```
-
-**Option 2: Symlink to the repo**
-```bash
-ln -s $(pwd)/skill ~/.claude/skills/telecli
-```
-
-After installation, Claude will automatically use this skill when you ask it to interact with Telegram.
-
-### Skill Contents
-
-```
-skill/
-├── SKILL.md           # Main skill instructions
-└── references/
-    └── commands.md    # Complete command reference
-```
-
-The skill provides:
-- Command syntax and examples
-- Patterns for polling loops
-- Handling different message types
-- Best practices for AI agents
 
 ## License
 
