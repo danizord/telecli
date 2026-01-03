@@ -34,7 +34,7 @@ describe("API Client", () => {
     const originalFetch = globalThis.fetch;
     let calledUrl = "";
 
-    globalThis.fetch = async (url: string | URL | Request, init?: RequestInit) => {
+    (globalThis as any).fetch = async (url: string | URL | Request, init?: RequestInit) => {
       calledUrl = url.toString();
       return new Response(JSON.stringify({ ok: true, result: {} }));
     };
@@ -51,7 +51,7 @@ describe("API Client", () => {
     const originalFetch = globalThis.fetch;
     let sentBody = "";
 
-    globalThis.fetch = async (url: string | URL | Request, init?: RequestInit) => {
+    (globalThis as any).fetch = async (url: string | URL | Request, init?: RequestInit) => {
       sentBody = init?.body as string;
       return new Response(JSON.stringify({ ok: true, result: {} }));
     };
@@ -71,7 +71,7 @@ describe("API Client", () => {
       result: { id: 123, first_name: "TestBot", is_bot: true },
     };
 
-    globalThis.fetch = async () => {
+    (globalThis as any).fetch = async () => {
       return new Response(JSON.stringify(mockResponse));
     };
 

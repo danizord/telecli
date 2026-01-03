@@ -21,7 +21,7 @@ describe("updates commands", () => {
       const originalFetch = globalThis.fetch;
       let calledMethod = "";
 
-      globalThis.fetch = async (url: string | URL | Request) => {
+      (globalThis as any).fetch = async (url: string | URL | Request) => {
         calledMethod = url.toString().split("/").pop() || "";
         return new Response(
           JSON.stringify({
@@ -45,7 +45,7 @@ describe("updates commands", () => {
       const originalFetch = globalThis.fetch;
       let sentParams: Record<string, unknown> = {};
 
-      globalThis.fetch = async (url: string | URL | Request, init?: RequestInit) => {
+      (globalThis as any).fetch = async (url: string | URL | Request, init?: RequestInit) => {
         sentParams = JSON.parse(init?.body as string);
         return new Response(JSON.stringify({ ok: true, result: [] }));
       };
@@ -66,7 +66,7 @@ describe("updates commands", () => {
       const originalFetch = globalThis.fetch;
       let sentParams: Record<string, unknown> = {};
 
-      globalThis.fetch = async (url: string | URL | Request, init?: RequestInit) => {
+      (globalThis as any).fetch = async (url: string | URL | Request, init?: RequestInit) => {
         sentParams = JSON.parse(init?.body as string);
         return new Response(JSON.stringify({ ok: true, result: true }));
       };
@@ -84,7 +84,7 @@ describe("updates commands", () => {
       const originalFetch = globalThis.fetch;
       let calledMethod = "";
 
-      globalThis.fetch = async (url: string | URL | Request) => {
+      (globalThis as any).fetch = async (url: string | URL | Request) => {
         calledMethod = url.toString().split("/").pop() || "";
         return new Response(JSON.stringify({ ok: true, result: true }));
       };
@@ -101,7 +101,7 @@ describe("updates commands", () => {
     it("should get webhook info", async () => {
       const originalFetch = globalThis.fetch;
 
-      globalThis.fetch = async () => {
+      (globalThis as any).fetch = async () => {
         return new Response(
           JSON.stringify({
             ok: true,

@@ -20,7 +20,7 @@ describe("getMe command", () => {
     const originalFetch = globalThis.fetch;
     let calledMethod = "";
 
-    globalThis.fetch = async (url: string | URL | Request) => {
+    (globalThis as any).fetch = async (url: string | URL | Request) => {
       calledMethod = url.toString().split("/").pop() || "";
       return new Response(
         JSON.stringify({

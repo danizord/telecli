@@ -26,7 +26,7 @@ describe("message commands", () => {
       const originalFetch = globalThis.fetch;
       let sentParams: Record<string, unknown> = {};
 
-      globalThis.fetch = async (url: string | URL | Request, init?: RequestInit) => {
+      (globalThis as any).fetch = async (url: string | URL | Request, init?: RequestInit) => {
         sentParams = JSON.parse(init?.body as string);
         return new Response(
           JSON.stringify({
@@ -55,7 +55,7 @@ describe("message commands", () => {
       const originalFetch = globalThis.fetch;
       let sentParams: Record<string, unknown> = {};
 
-      globalThis.fetch = async (url: string | URL | Request, init?: RequestInit) => {
+      (globalThis as any).fetch = async (url: string | URL | Request, init?: RequestInit) => {
         sentParams = JSON.parse(init?.body as string);
         return new Response(JSON.stringify({ ok: true, result: {} }));
       };
@@ -82,7 +82,7 @@ describe("message commands", () => {
       const originalFetch = globalThis.fetch;
       let sentParams: Record<string, unknown> = {};
 
-      globalThis.fetch = async (url: string | URL | Request, init?: RequestInit) => {
+      (globalThis as any).fetch = async (url: string | URL | Request, init?: RequestInit) => {
         sentParams = JSON.parse(init?.body as string);
         return new Response(JSON.stringify({ ok: true, result: {} }));
       };
@@ -107,7 +107,7 @@ describe("message commands", () => {
       const originalFetch = globalThis.fetch;
       let sentParams: Record<string, unknown> = {};
 
-      globalThis.fetch = async (url: string | URL | Request, init?: RequestInit) => {
+      (globalThis as any).fetch = async (url: string | URL | Request, init?: RequestInit) => {
         sentParams = JSON.parse(init?.body as string);
         return new Response(JSON.stringify({ ok: true, result: {} }));
       };
@@ -132,7 +132,7 @@ describe("message commands", () => {
       const originalFetch = globalThis.fetch;
       let sentParams: Record<string, unknown> = {};
 
-      globalThis.fetch = async (url: string | URL | Request, init?: RequestInit) => {
+      (globalThis as any).fetch = async (url: string | URL | Request, init?: RequestInit) => {
         sentParams = JSON.parse(init?.body as string);
         return new Response(JSON.stringify({ ok: true, result: true }));
       };

@@ -563,7 +563,7 @@ async function main() {
               reply_to_message_id: flags["reply-to"] ? parseInt(flags["reply-to"]) : undefined,
             };
             if (flags.keyboard) {
-              (opts as Record<string, unknown>).reply_markup = JSON.parse(flags.keyboard);
+              (opts as any).reply_markup = JSON.parse(flags.keyboard);
             }
             output(await sendMessage(opts));
             break;

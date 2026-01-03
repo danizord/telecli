@@ -51,7 +51,7 @@ function getToken(): string {
 
 export async function callApi<T>(
   method: string,
-  params?: Record<string, unknown>
+  params?: object
 ): Promise<ApiResponse<T>> {
   const token = getToken();
   const url = `${BASE_URL}${token}/${method}`;
@@ -69,7 +69,7 @@ export async function callApi<T>(
 
 export async function callApiWithFile<T>(
   method: string,
-  params: Record<string, unknown>,
+  params: object,
   fileField: string,
   filePath: string
 ): Promise<ApiResponse<T>> {

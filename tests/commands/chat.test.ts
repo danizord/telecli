@@ -26,7 +26,7 @@ describe("chat commands", () => {
       const originalFetch = globalThis.fetch;
       let sentParams: Record<string, unknown> = {};
 
-      globalThis.fetch = async (url: string | URL | Request, init?: RequestInit) => {
+      (globalThis as any).fetch = async (url: string | URL | Request, init?: RequestInit) => {
         sentParams = JSON.parse(init?.body as string);
         return new Response(
           JSON.stringify({
@@ -55,7 +55,7 @@ describe("chat commands", () => {
     it("should get chat administrators", async () => {
       const originalFetch = globalThis.fetch;
 
-      globalThis.fetch = async () => {
+      (globalThis as any).fetch = async () => {
         return new Response(
           JSON.stringify({
             ok: true,
@@ -84,7 +84,7 @@ describe("chat commands", () => {
     it("should get member count", async () => {
       const originalFetch = globalThis.fetch;
 
-      globalThis.fetch = async () => {
+      (globalThis as any).fetch = async () => {
         return new Response(
           JSON.stringify({
             ok: true,
@@ -108,7 +108,7 @@ describe("chat commands", () => {
       const originalFetch = globalThis.fetch;
       let sentParams: Record<string, unknown> = {};
 
-      globalThis.fetch = async (url: string | URL | Request, init?: RequestInit) => {
+      (globalThis as any).fetch = async (url: string | URL | Request, init?: RequestInit) => {
         sentParams = JSON.parse(init?.body as string);
         return new Response(JSON.stringify({ ok: true, result: true }));
       };
