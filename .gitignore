@@ -3,3 +3,4 @@ node_modules/
 *.skill
 .DS_Store
 bun.lockb
+.claude/*.local.md
