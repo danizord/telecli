@@ -1,0 +1,12 @@
+{
+  "name": "telecli",
+  "version": "1.0.0",
+  "description": "Telegram Bot CLI integration for Claude Code with automatic polling",
+  "author": {
+    "name": "Daniel Gimenes",
+    "url": "https://github.com/danizord"
+  },
+  "repository": "https://github.com/danizord/telecli",
+  "license": "MIT",
+  "keywords": ["telegram", "bot", "cli", "polling", "messaging"]
+}
