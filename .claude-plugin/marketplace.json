@@ -1,10 +1,13 @@
 {
   "name": "telecli",
-  "owner": "danizord",
+  "owner": {
+    "name": "Daniel Gimenes",
+    "url": "https://github.com/danizord"
+  },
   "plugins": [
     {
       "name": "telecli",
-      "source": "plugin"
+      "source": "./plugin"
     }
   ]
 }
