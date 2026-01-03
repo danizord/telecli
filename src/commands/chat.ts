@@ -122,7 +122,9 @@ export interface SetChatAdministratorCustomTitleOptions {
   custom_title: string;
 }
 
-export async function setChatAdministratorCustomTitle(options: SetChatAdministratorCustomTitleOptions) {
+export async function setChatAdministratorCustomTitle(
+  options: SetChatAdministratorCustomTitleOptions,
+) {
   return callApi<boolean>("setChatAdministratorCustomTitle", options);
 }
 
@@ -165,7 +167,10 @@ export async function deleteChatPhoto(chatId: number | string) {
 }
 
 export async function setChatStickerSet(chatId: number | string, stickerSetName: string) {
-  return callApi<boolean>("setChatStickerSet", { chat_id: chatId, sticker_set_name: stickerSetName });
+  return callApi<boolean>("setChatStickerSet", {
+    chat_id: chatId,
+    sticker_set_name: stickerSetName,
+  });
 }
 
 export async function deleteChatStickerSet(chatId: number | string) {

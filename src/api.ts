@@ -44,15 +44,12 @@ function getToken(): string {
 
   throw new Error(
     "Bot token not found. Set it with:\n" +
-    "  tg config token <your_token>\n" +
-    "Or use the TELEGRAM_BOT_TOKEN environment variable."
+      "  tg config token <your_token>\n" +
+      "Or use the TELEGRAM_BOT_TOKEN environment variable.",
   );
 }
 
-export async function callApi<T>(
-  method: string,
-  params?: object
-): Promise<ApiResponse<T>> {
+export async function callApi<T>(method: string, params?: object): Promise<ApiResponse<T>> {
   const token = getToken();
   const url = `${BASE_URL}${token}/${method}`;
 
@@ -71,7 +68,7 @@ export async function callApiWithFile<T>(
   method: string,
   params: object,
   fileField: string,
-  filePath: string
+  filePath: string,
 ): Promise<ApiResponse<T>> {
   const token = getToken();
   const url = `${BASE_URL}${token}/${method}`;

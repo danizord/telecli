@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeAll, afterAll, mock } from "bun:test";
+import { describe, it, expect, beforeAll, afterAll } from "bun:test";
 import { callApi } from "../src/api";
 
 describe("API Client", () => {
@@ -34,7 +34,7 @@ describe("API Client", () => {
     const originalFetch = globalThis.fetch;
     let calledUrl = "";
 
-    (globalThis as any).fetch = async (url: string | URL | Request, init?: RequestInit) => {
+    (globalThis as any).fetch = async (url: string | URL | Request, _init?: RequestInit) => {
       calledUrl = url.toString();
       return new Response(JSON.stringify({ ok: true, result: {} }));
     };

@@ -1,9 +1,9 @@
 import { callApi } from "../api";
 
 export async function getForumTopicIconStickers() {
-  return callApi<Array<{ file_id: string; file_unique_id: string; type: string; width: number; height: number }>>(
-    "getForumTopicIconStickers"
-  );
+  return callApi<
+    Array<{ file_id: string; file_unique_id: string; type: string; width: number; height: number }>
+  >("getForumTopicIconStickers");
 }
 
 export interface CreateForumTopicOptions {

@@ -1,5 +1,4 @@
 import { callApi } from "../api";
-import type { User } from "../types";
 
 // Bot management methods
 
@@ -17,7 +16,14 @@ export interface BotCommand {
 }
 
 export interface BotCommandScope {
-  type: "default" | "all_private_chats" | "all_group_chats" | "all_chat_administrators" | "chat" | "chat_administrators" | "chat_member";
+  type:
+    | "default"
+    | "all_private_chats"
+    | "all_group_chats"
+    | "all_chat_administrators"
+    | "chat"
+    | "chat_administrators"
+    | "chat_member";
   chat_id?: number | string;
   user_id?: number;
 }
@@ -147,7 +153,9 @@ export interface SetMyDefaultAdministratorRightsOptions {
   for_channels?: boolean;
 }
 
-export async function setMyDefaultAdministratorRights(options: SetMyDefaultAdministratorRightsOptions = {}) {
+export async function setMyDefaultAdministratorRights(
+  options: SetMyDefaultAdministratorRightsOptions = {},
+) {
   return callApi<boolean>("setMyDefaultAdministratorRights", options);
 }
 
@@ -155,7 +163,9 @@ export interface GetMyDefaultAdministratorRightsOptions {
   for_channels?: boolean;
 }
 
-export async function getMyDefaultAdministratorRights(options: GetMyDefaultAdministratorRightsOptions = {}) {
+export async function getMyDefaultAdministratorRights(
+  options: GetMyDefaultAdministratorRightsOptions = {},
+) {
   return callApi<ChatAdministratorRights>("getMyDefaultAdministratorRights", options);
 }
 
@@ -166,5 +176,16 @@ export interface GetUserProfilePhotosOptions {
 }
 
 export async function getUserProfilePhotos(options: GetUserProfilePhotosOptions) {
-  return callApi<{ total_count: number; photos: Array<Array<{ file_id: string; file_unique_id: string; width: number; height: number; file_size?: number }>> }>("getUserProfilePhotos", options);
+  return callApi<{
+    total_count: number;
+    photos: Array<
+      Array<{
+        file_id: string;
+        file_unique_id: string;
+        width: number;
+        height: number;
+        file_size?: number;
+      }>
+    >;
+  }>("getUserProfilePhotos", options);
 }

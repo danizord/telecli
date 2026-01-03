@@ -1,5 +1,4 @@
 import { callApi, callApiWithFile } from "../api";
-import type { Message } from "../types";
 
 export interface StickerSet {
   name: string;
@@ -35,17 +34,19 @@ export async function getStickerSet(name: string) {
 }
 
 export async function getCustomEmojiStickers(customEmojiIds: string[]) {
-  return callApi<Array<{
-    file_id: string;
-    file_unique_id: string;
-    type: string;
-    width: number;
-    height: number;
-    is_animated: boolean;
-    is_video: boolean;
-    emoji?: string;
-    custom_emoji_id?: string;
-  }>>("getCustomEmojiStickers", { custom_emoji_ids: customEmojiIds });
+  return callApi<
+    Array<{
+      file_id: string;
+      file_unique_id: string;
+      type: string;
+      width: number;
+      height: number;
+      is_animated: boolean;
+      is_video: boolean;
+      emoji?: string;
+      custom_emoji_id?: string;
+    }>
+  >("getCustomEmojiStickers", { custom_emoji_ids: customEmojiIds });
 }
 
 export interface UploadStickerFileOptions {
@@ -60,7 +61,7 @@ export async function uploadStickerFile(options: UploadStickerFileOptions) {
     "uploadStickerFile",
     params,
     "sticker",
-    sticker
+    sticker,
   );
 }
 
@@ -171,7 +172,9 @@ export interface SetCustomEmojiStickerSetThumbnailOptions {
   custom_emoji_id?: string;
 }
 
-export async function setCustomEmojiStickerSetThumbnail(options: SetCustomEmojiStickerSetThumbnailOptions) {
+export async function setCustomEmojiStickerSetThumbnail(
+  options: SetCustomEmojiStickerSetThumbnailOptions,
+) {
   return callApi<boolean>("setCustomEmojiStickerSetThumbnail", options);
 }
 

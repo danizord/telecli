@@ -27,7 +27,7 @@ describe("updates commands", () => {
           JSON.stringify({
             ok: true,
             result: [],
-          })
+          }),
         );
       };
 
@@ -110,7 +110,7 @@ describe("updates commands", () => {
               has_custom_certificate: false,
               pending_update_count: 0,
             },
-          })
+          }),
         );
       };
 

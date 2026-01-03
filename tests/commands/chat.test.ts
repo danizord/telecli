@@ -36,7 +36,7 @@ describe("chat commands", () => {
               type: "group",
               title: "Test Group",
             },
-          })
+          }),
         );
       };
 
@@ -65,7 +65,7 @@ describe("chat commands", () => {
                 status: "creator",
               },
             ],
-          })
+          }),
         );
       };
 
@@ -89,7 +89,7 @@ describe("chat commands", () => {
           JSON.stringify({
             ok: true,
             result: 42,
-          })
+          }),
         );
       };
 

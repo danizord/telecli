@@ -1,19 +1,13 @@
 #!/usr/bin/env bun
 
 import { getMe } from "./commands/me";
-import {
-  getUpdates,
-  setWebhook,
-  deleteWebhook,
-  getWebhookInfo,
-} from "./commands/updates";
+import { getUpdates, setWebhook, deleteWebhook, getWebhookInfo } from "./commands/updates";
 import {
   sendMessage,
   forwardMessage,
   forwardMessages,
   editMessageText,
   editMessageCaption,
-  editMessageReplyMarkup,
   deleteMessage,
   deleteMessages,
   copyMessage,
@@ -53,11 +47,7 @@ import {
 } from "./commands/media";
 import { getFile, downloadFile } from "./commands/file";
 import { setMessageReaction } from "./commands/reaction";
-import {
-  pinChatMessage,
-  unpinChatMessage,
-  unpinAllChatMessages,
-} from "./commands/pin";
+import { pinChatMessage, unpinChatMessage, unpinAllChatMessages } from "./commands/pin";
 import {
   logOut,
   close,
@@ -77,12 +67,7 @@ import {
   getUserProfilePhotos,
 } from "./commands/bot";
 import { sendPoll, stopPoll } from "./commands/poll";
-import {
-  sendLocation,
-  sendVenue,
-  editMessageLiveLocation,
-  stopMessageLiveLocation,
-} from "./commands/location";
+import { sendLocation, sendVenue } from "./commands/location";
 import { sendContact, sendDice, sendChatAction } from "./commands/contact";
 import {
   getForumTopicIconStickers,
@@ -97,7 +82,6 @@ import {
   reopenGeneralForumTopic,
   hideGeneralForumTopic,
   unhideGeneralForumTopic,
-  unpinAllGeneralForumTopicMessages,
 } from "./commands/forum";
 import {
   getStickerSet,
@@ -110,10 +94,7 @@ import {
   replaceStickerInSet,
   setStickerEmojiList,
   setStickerKeywords,
-  setStickerMaskPosition,
   setStickerSetTitle,
-  setStickerSetThumbnail,
-  setCustomEmojiStickerSetThumbnail,
   deleteStickerSet,
 } from "./commands/sticker";
 import { answerInlineQuery, answerWebAppQuery } from "./commands/inline";
@@ -126,11 +107,7 @@ import {
   getStarTransactions,
 } from "./commands/payment";
 import { sendGame, setGameScore, getGameHighScores } from "./commands/game";
-import {
-  answerCallbackQuery,
-  getUserChatBoosts,
-  getBusinessConnection,
-} from "./commands/callback";
+import { answerCallbackQuery, getUserChatBoosts, getBusinessConnection } from "./commands/callback";
 import {
   exportChatInviteLink,
   createChatInviteLink,
@@ -497,7 +474,12 @@ async function main() {
             if (action === "get") {
               output(await getChatMenuButton({ chat_id: positional[2] }));
             } else if (action === "set") {
-              output(await setChatMenuButton({ chat_id: positional[2], menu_button: JSON.parse(positional[3]) }));
+              output(
+                await setChatMenuButton({
+                  chat_id: positional[2],
+                  menu_button: JSON.parse(positional[3]),
+                }),
+              );
             } else {
               error("Usage: tg bot menu <get|set>");
             }
@@ -518,7 +500,7 @@ async function main() {
                 offset: flags.offset ? parseInt(flags.offset) : undefined,
                 limit: flags.limit ? parseInt(flags.limit) : undefined,
                 timeout: flags.timeout ? parseInt(flags.timeout) : undefined,
-              })
+              }),
             );
             break;
           }
@@ -581,7 +563,7 @@ async function main() {
                 text,
                 reply_to_message_id: parseInt(messageId),
                 parse_mode: flags["parse-mode"] as "HTML" | "Markdown" | "MarkdownV2" | undefined,
-              })
+              }),
             );
             break;
           }
@@ -597,7 +579,7 @@ async function main() {
                 chat_id: chatId,
                 from_chat_id: fromChatId,
                 message_id: parseInt(messageId),
-              })
+              }),
             );
             break;
           }
@@ -613,7 +595,7 @@ async function main() {
                 chat_id: chatId,
                 from_chat_id: fromChatId,
                 message_ids: messageIds,
-              })
+              }),
             );
             break;
           }
@@ -630,7 +612,7 @@ async function main() {
                 message_id: parseInt(messageId),
                 text,
                 parse_mode: flags["parse-mode"] as "HTML" | "Markdown" | "MarkdownV2" | undefined,
-              })
+              }),
             );
             break;
           }
@@ -647,7 +629,7 @@ async function main() {
                 message_id: parseInt(messageId),
                 caption,
                 parse_mode: flags["parse-mode"] as "HTML" | "Markdown" | "MarkdownV2" | undefined,
-              })
+              }),
             );
             break;
           }
@@ -661,7 +643,7 @@ async function main() {
               await deleteMessage({
                 chat_id: chatId,
                 message_id: parseInt(messageId),
-              })
+              }),
             );
             break;
           }
@@ -675,7 +657,7 @@ async function main() {
               await deleteMessages({
                 chat_id: chatId,
                 message_ids: messageIds,
-              })
+              }),
             );
             break;
           }
@@ -691,7 +673,7 @@ async function main() {
                 chat_id: chatId,
                 from_chat_id: fromChatId,
                 message_id: parseInt(messageId),
-              })
+              }),
             );
             break;
           }
@@ -707,7 +689,7 @@ async function main() {
                 chat_id: chatId,
                 from_chat_id: fromChatId,
                 message_ids: messageIds,
-              })
+              }),
             );
             break;
           }
@@ -795,24 +777,40 @@ async function main() {
             break;
           case "restrict": {
             const perms = JSON.parse(positional[3]);
-            output(await restrictChatMember({ chat_id: chatId, user_id: parseInt(userId), permissions: perms }));
+            output(
+              await restrictChatMember({
+                chat_id: chatId,
+                user_id: parseInt(userId),
+                permissions: perms,
+              }),
+            );
             break;
           }
           case "promote": {
             const rights = JSON.parse(positional[3]);
-            output(await promoteChatMember({ chat_id: chatId, user_id: parseInt(userId), ...rights }));
+            output(
+              await promoteChatMember({ chat_id: chatId, user_id: parseInt(userId), ...rights }),
+            );
             break;
           }
           case "title": {
             const title = positional[3];
-            output(await setChatAdministratorCustomTitle({ chat_id: chatId, user_id: parseInt(userId), custom_title: title }));
+            output(
+              await setChatAdministratorCustomTitle({
+                chat_id: chatId,
+                user_id: parseInt(userId),
+                custom_title: title,
+              }),
+            );
             break;
           }
           case "ban-chat":
             output(await banChatSenderChat({ chat_id: chatId, sender_chat_id: parseInt(userId) }));
             break;
           case "unban-chat":
-            output(await unbanChatSenderChat({ chat_id: chatId, sender_chat_id: parseInt(userId) }));
+            output(
+              await unbanChatSenderChat({ chat_id: chatId, sender_chat_id: parseInt(userId) }),
+            );
             break;
           default:
             error("Usage: tg member <ban|unban|restrict|promote|title|ban-chat|unban-chat>");
@@ -833,28 +831,84 @@ async function main() {
 
         switch (subcommand) {
           case "photo":
-            output(await sendPhoto({ chat_id: chatId, photo: file, caption, parse_mode: parseMode, message_thread_id: threadId }));
+            output(
+              await sendPhoto({
+                chat_id: chatId,
+                photo: file,
+                caption,
+                parse_mode: parseMode,
+                message_thread_id: threadId,
+              }),
+            );
             break;
           case "video":
-            output(await sendVideo({ chat_id: chatId, video: file, caption, parse_mode: parseMode, message_thread_id: threadId }));
+            output(
+              await sendVideo({
+                chat_id: chatId,
+                video: file,
+                caption,
+                parse_mode: parseMode,
+                message_thread_id: threadId,
+              }),
+            );
             break;
           case "audio":
-            output(await sendAudio({ chat_id: chatId, audio: file, caption, parse_mode: parseMode, message_thread_id: threadId }));
+            output(
+              await sendAudio({
+                chat_id: chatId,
+                audio: file,
+                caption,
+                parse_mode: parseMode,
+                message_thread_id: threadId,
+              }),
+            );
             break;
           case "document":
-            output(await sendDocument({ chat_id: chatId, document: file, caption, parse_mode: parseMode, message_thread_id: threadId }));
+            output(
+              await sendDocument({
+                chat_id: chatId,
+                document: file,
+                caption,
+                parse_mode: parseMode,
+                message_thread_id: threadId,
+              }),
+            );
             break;
           case "voice":
-            output(await sendVoice({ chat_id: chatId, voice: file, caption, parse_mode: parseMode, message_thread_id: threadId }));
+            output(
+              await sendVoice({
+                chat_id: chatId,
+                voice: file,
+                caption,
+                parse_mode: parseMode,
+                message_thread_id: threadId,
+              }),
+            );
             break;
           case "sticker":
-            output(await sendSticker({ chat_id: chatId, sticker: file, message_thread_id: threadId }));
+            output(
+              await sendSticker({ chat_id: chatId, sticker: file, message_thread_id: threadId }),
+            );
             break;
           case "animation":
-            output(await sendAnimation({ chat_id: chatId, animation: file, caption, parse_mode: parseMode, message_thread_id: threadId }));
+            output(
+              await sendAnimation({
+                chat_id: chatId,
+                animation: file,
+                caption,
+                parse_mode: parseMode,
+                message_thread_id: threadId,
+              }),
+            );
             break;
           case "videonote":
-            output(await sendVideoNote({ chat_id: chatId, video_note: file, message_thread_id: threadId }));
+            output(
+              await sendVideoNote({
+                chat_id: chatId,
+                video_note: file,
+                message_thread_id: threadId,
+              }),
+            );
             break;
           case "group": {
             const media = JSON.parse(positional[2]);
@@ -862,7 +916,9 @@ async function main() {
             break;
           }
           default:
-            error("Usage: tg media <photo|video|audio|document|voice|sticker|animation|videonote|group>");
+            error(
+              "Usage: tg media <photo|video|audio|document|voice|sticker|animation|videonote|group>",
+            );
         }
         break;
       }
@@ -899,22 +955,26 @@ async function main() {
             output(await exportChatInviteLink(chatId));
             break;
           case "create":
-            output(await createChatInviteLink({
-              chat_id: chatId,
-              name: flags.name,
-              expire_date: flags.expire ? parseInt(flags.expire) : undefined,
-              member_limit: flags.limit ? parseInt(flags.limit) : undefined,
-            }));
+            output(
+              await createChatInviteLink({
+                chat_id: chatId,
+                name: flags.name,
+                expire_date: flags.expire ? parseInt(flags.expire) : undefined,
+                member_limit: flags.limit ? parseInt(flags.limit) : undefined,
+              }),
+            );
             break;
           case "edit": {
             const link = positional[2];
-            output(await editChatInviteLink({
-              chat_id: chatId,
-              invite_link: link,
-              name: flags.name,
-              expire_date: flags.expire ? parseInt(flags.expire) : undefined,
-              member_limit: flags.limit ? parseInt(flags.limit) : undefined,
-            }));
+            output(
+              await editChatInviteLink({
+                chat_id: chatId,
+                invite_link: link,
+                name: flags.name,
+                expire_date: flags.expire ? parseInt(flags.expire) : undefined,
+                member_limit: flags.limit ? parseInt(flags.limit) : undefined,
+              }),
+            );
             break;
           }
           case "revoke": {
@@ -978,7 +1038,9 @@ async function main() {
           case "unpin-all": {
             const chatId = positional[1];
             const topicId = parseInt(positional[2]);
-            output(await unpinAllForumTopicMessages({ chat_id: chatId, message_thread_id: topicId }));
+            output(
+              await unpinAllForumTopicMessages({ chat_id: chatId, message_thread_id: topicId }),
+            );
             break;
           }
           case "general": {
@@ -1026,7 +1088,7 @@ async function main() {
               chat_id: actualChatId,
               message_id: parseInt(actualMessageId),
               reaction: [],
-            })
+            }),
           );
         } else {
           const emoji = positional[2];
@@ -1038,7 +1100,7 @@ async function main() {
               chat_id: chatId,
               message_id: parseInt(messageId),
               reaction: [{ type: "emoji", emoji }],
-            })
+            }),
           );
         }
         break;
@@ -1075,12 +1137,14 @@ async function main() {
         if (!chatId || isNaN(lat) || isNaN(lon)) {
           error("Usage: tg location <chat_id> <lat> <lon>");
         }
-        output(await sendLocation({
-          chat_id: chatId,
-          latitude: lat,
-          longitude: lon,
-          live_period: flags.live ? parseInt(flags.live) : undefined,
-        }));
+        output(
+          await sendLocation({
+            chat_id: chatId,
+            latitude: lat,
+            longitude: lon,
+            live_period: flags.live ? parseInt(flags.live) : undefined,
+          }),
+        );
         break;
       }
 
@@ -1093,13 +1157,15 @@ async function main() {
         if (!chatId || isNaN(lat) || isNaN(lon) || !title || !address) {
           error("Usage: tg venue <chat_id> <lat> <lon> <title> <address>");
         }
-        output(await sendVenue({
-          chat_id: chatId,
-          latitude: lat,
-          longitude: lon,
-          title,
-          address,
-        }));
+        output(
+          await sendVenue({
+            chat_id: chatId,
+            latitude: lat,
+            longitude: lon,
+            title,
+            address,
+          }),
+        );
         break;
       }
 
@@ -1111,12 +1177,14 @@ async function main() {
         if (!chatId || !phone || !firstName) {
           error("Usage: tg contact <chat_id> <phone> <first_name> [last_name]");
         }
-        output(await sendContact({
-          chat_id: chatId,
-          phone_number: phone,
-          first_name: firstName,
-          last_name: lastName,
-        }));
+        output(
+          await sendContact({
+            chat_id: chatId,
+            phone_number: phone,
+            first_name: firstName,
+            last_name: lastName,
+          }),
+        );
         break;
       }
 
@@ -1136,7 +1204,12 @@ async function main() {
         if (!chatId || !action) {
           error("Usage: tg action <chat_id> <action>");
         }
-        output(await sendChatAction({ chat_id: chatId, action: action as Parameters<typeof sendChatAction>[0]["action"] }));
+        output(
+          await sendChatAction({
+            chat_id: chatId,
+            action: action as Parameters<typeof sendChatAction>[0]["action"],
+          }),
+        );
         break;
       }
 
@@ -1151,14 +1224,16 @@ async function main() {
               error("Usage: tg poll send <chat_id> <question> <options_json>");
             }
             const options = JSON.parse(optionsJson).map((o: string) => ({ text: o }));
-            output(await sendPoll({
-              chat_id: chatId,
-              question,
-              options,
-              type: flags.quiz ? "quiz" : "regular",
-              correct_option_id: flags.correct ? parseInt(flags.correct) : undefined,
-              is_anonymous: flags.anonymous === "true",
-            }));
+            output(
+              await sendPoll({
+                chat_id: chatId,
+                question,
+                options,
+                type: flags.quiz ? "quiz" : "regular",
+                correct_option_id: flags.correct ? parseInt(flags.correct) : undefined,
+                is_anonymous: flags.anonymous === "true",
+              }),
+            );
             break;
           }
           case "stop": {
@@ -1186,7 +1261,9 @@ async function main() {
             const userId = parseInt(positional[1]);
             const path = positional[2];
             const format = positional[3] as "static" | "animated" | "video";
-            output(await uploadStickerFile({ user_id: userId, sticker: path, sticker_format: format }));
+            output(
+              await uploadStickerFile({ user_id: userId, sticker: path, sticker_format: format }),
+            );
             break;
           }
           case "create-set": {
@@ -1205,7 +1282,12 @@ async function main() {
             break;
           }
           case "position":
-            output(await setStickerPositionInSet({ sticker: positional[1], position: parseInt(positional[2]) }));
+            output(
+              await setStickerPositionInSet({
+                sticker: positional[1],
+                position: parseInt(positional[2]),
+              }),
+            );
             break;
           case "delete":
             output(await deleteStickerFromSet(positional[1]));
@@ -1215,14 +1297,31 @@ async function main() {
             const name = positional[2];
             const oldSticker = positional[3];
             const newSticker = JSON.parse(positional[4]);
-            output(await replaceStickerInSet({ user_id: userId, name, old_sticker: oldSticker, sticker: newSticker }));
+            output(
+              await replaceStickerInSet({
+                user_id: userId,
+                name,
+                old_sticker: oldSticker,
+                sticker: newSticker,
+              }),
+            );
             break;
           }
           case "set-emoji":
-            output(await setStickerEmojiList({ sticker: positional[1], emoji_list: JSON.parse(positional[2]) }));
+            output(
+              await setStickerEmojiList({
+                sticker: positional[1],
+                emoji_list: JSON.parse(positional[2]),
+              }),
+            );
             break;
           case "set-keywords":
-            output(await setStickerKeywords({ sticker: positional[1], keywords: JSON.parse(positional[2]) }));
+            output(
+              await setStickerKeywords({
+                sticker: positional[1],
+                keywords: JSON.parse(positional[2]),
+              }),
+            );
             break;
           case "set-title":
             output(await setStickerSetTitle({ name: positional[1], title: positional[2] }));
@@ -1267,14 +1366,16 @@ async function main() {
             const payload = positional[4];
             const currency = positional[5];
             const prices = JSON.parse(positional[6]);
-            output(await sendInvoice({
-              chat_id: chatId,
-              title,
-              description: desc,
-              payload,
-              currency,
-              prices,
-            }));
+            output(
+              await sendInvoice({
+                chat_id: chatId,
+                title,
+                description: desc,
+                payload,
+                currency,
+                prices,
+              }),
+            );
             break;
           }
           case "link": {
@@ -1283,40 +1384,58 @@ async function main() {
             const payload = positional[3];
             const currency = positional[4];
             const prices = JSON.parse(positional[5]);
-            output(await createInvoiceLink({
-              title,
-              description: desc,
-              payload,
-              currency,
-              prices,
-            }));
+            output(
+              await createInvoiceLink({
+                title,
+                description: desc,
+                payload,
+                currency,
+                prices,
+              }),
+            );
             break;
           }
           case "shipping": {
             const queryId = positional[1];
             const ok = positional[2] === "true";
             const options = positional[3] ? JSON.parse(positional[3]) : undefined;
-            output(await answerShippingQuery({ shipping_query_id: queryId, ok, shipping_options: options }));
+            output(
+              await answerShippingQuery({
+                shipping_query_id: queryId,
+                ok,
+                shipping_options: options,
+              }),
+            );
             break;
           }
           case "precheckout": {
             const queryId = positional[1];
             const ok = positional[2] === "true";
             const errMsg = positional[3];
-            output(await answerPreCheckoutQuery({ pre_checkout_query_id: queryId, ok, error_message: errMsg }));
+            output(
+              await answerPreCheckoutQuery({
+                pre_checkout_query_id: queryId,
+                ok,
+                error_message: errMsg,
+              }),
+            );
             break;
           }
           case "refund": {
             const userId = parseInt(positional[1]);
             const chargeId = positional[2];
-            output(await refundStarPayment({ user_id: userId, telegram_payment_charge_id: chargeId }));
+            output(
+              await refundStarPayment({ user_id: userId, telegram_payment_charge_id: chargeId }),
+            );
             break;
           }
           case "stars":
-            output(await getStarTransactions(
-              positional[1] ? parseInt(positional[1]) : undefined,
-              positional[2] ? parseInt(positional[2]) : undefined
-            ));
+            output(
+              await getStarTransactions(
+                positional[1] ? parseInt(positional[1]) : undefined,
+                positional[2] ? parseInt(positional[2]) : undefined,
+              ),
+            );
             break;
           default:
             error("Usage: tg payment <invoice|link|shipping|precheckout|refund|stars>");
@@ -1336,21 +1455,25 @@ async function main() {
           case "score": {
             const userId = parseInt(positional[1]);
             const score = parseInt(positional[2]);
-            output(await setGameScore({
-              user_id: userId,
-              score,
-              chat_id: flags.chat ? parseInt(flags.chat) : undefined,
-              message_id: flags.message ? parseInt(flags.message) : undefined,
-            }));
+            output(
+              await setGameScore({
+                user_id: userId,
+                score,
+                chat_id: flags.chat ? parseInt(flags.chat) : undefined,
+                message_id: flags.message ? parseInt(flags.message) : undefined,
+              }),
+            );
             break;
           }
           case "scores": {
             const userId = parseInt(positional[1]);
-            output(await getGameHighScores({
-              user_id: userId,
-              chat_id: flags.chat ? parseInt(flags.chat) : undefined,
-              message_id: flags.message ? parseInt(flags.message) : undefined,
-            }));
+            output(
+              await getGameHighScores({
+                user_id: userId,
+                chat_id: flags.chat ? parseInt(flags.chat) : undefined,
+                message_id: flags.message ? parseInt(flags.message) : undefined,
+              }),
+            );
             break;
           }
           default:
@@ -1364,12 +1487,14 @@ async function main() {
         if (sub === "answer") {
           const queryId = positional[1];
           const text = positional[2];
-          output(await answerCallbackQuery({
-            callback_query_id: queryId,
-            text,
-            show_alert: flags.alert === "true",
-            url: flags.url,
-          }));
+          output(
+            await answerCallbackQuery({
+              callback_query_id: queryId,
+              text,
+              show_alert: flags.alert === "true",
+              url: flags.url,
+            }),
+          );
         } else {
           error("Usage: tg callback answer <query_id> [text]");
         }

@@ -31,7 +31,7 @@ describe("getMe command", () => {
             first_name: "TestBot",
             username: "test_bot",
           },
-        })
+        }),
       );
     };
 

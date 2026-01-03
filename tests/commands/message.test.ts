@@ -37,7 +37,7 @@ describe("message commands", () => {
               date: Date.now(),
               text: "Hello",
             },
-          })
+          }),
         );
       };
 
