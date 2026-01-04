@@ -25,10 +25,11 @@ Start or stop the Telegram polling loop.
 2. Confirm polling has started
 
 3. Begin the polling loop:
-   - Run `tg updates poll --timeout 30` (or with `--offset` if resuming)
+   - Run `tg updates poll` (or with `--offset` if resuming)
+   - The command will poll indefinitely with 50s timeout until updates arrive
    - Process any incoming messages (respond, react, etc.)
    - Update `last_offset` in state file with highest update_id + 1
-   - Continue polling
+   - Run the poll command again to wait for more updates
 
 ## Stopping Polling
 

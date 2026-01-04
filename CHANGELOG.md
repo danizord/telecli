@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.0] - 2026-01-04
+
+### Changed
+
+- `tg updates poll` without `--timeout` now loops indefinitely with 50s internal timeout until updates arrive
+- `tg updates poll --timeout N` performs a single poll (useful for hooks and scripts)
+- Updated polling documentation and examples to reflect new behavior
+
 ## [0.1.0] - 2026-01-04
 
 ### Added
@@ -37,4 +45,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - GitHub Actions CI workflow with type checking, linting, and tests
 - Modern tooling: tsgo, oxlint, oxfmt
 
+[0.2.0]: https://github.com/danizord/telecli/releases/tag/v0.2.0
 [0.1.0]: https://github.com/danizord/telecli/releases/tag/v0.1.0

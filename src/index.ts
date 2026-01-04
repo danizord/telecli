@@ -495,13 +495,30 @@ async function main() {
         const subcommand = positional[0];
         switch (subcommand) {
           case "poll": {
-            output(
-              await getUpdates({
-                offset: flags.offset ? parseInt(flags.offset) : undefined,
-                limit: flags.limit ? parseInt(flags.limit) : undefined,
-                timeout: flags.timeout ? parseInt(flags.timeout) : undefined,
-              }),
-            );
+            const offset = flags.offset ? parseInt(flags.offset) : undefined;
+            const limit = flags.limit ? parseInt(flags.limit) : undefined;
+
+            // If --timeout is explicitly provided, do a single poll (for hooks)
+            // If omitted, loop forever with 50s timeout until updates arrive
+            if (flags.timeout !== undefined) {
+              output(
+                await getUpdates({
+                  offset,
+                  limit,
+                  timeout: parseInt(flags.timeout),
+                }),
+              );
+            } else {
+              // Loop forever until we get updates
+              while (true) {
+                const result = await getUpdates({ offset, limit, timeout: 50 });
+                if (result.ok && result.result && result.result.length > 0) {
+                  output(result);
+                  break;
+                }
+                // If no updates, continue polling (don't output empty results)
+              }
+            }
             break;
           }
           case "webhook": {

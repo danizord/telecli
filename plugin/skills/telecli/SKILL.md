@@ -37,18 +37,18 @@ tg config path           # Show config file paths
 ### Polling for Updates
 
 ```bash
-# Basic poll (returns immediately if no updates)
+# Wait indefinitely for updates (loops with 50s timeout until updates arrive)
 tg updates poll
 
-# Long polling with timeout (waits up to N seconds)
-tg updates poll --timeout 30
+# With offset (skip already-processed updates)
+tg updates poll --offset 729538157
 
-# Poll with offset (skip already-processed updates)
-tg updates poll --timeout 30 --offset 729538157
+# Single poll with explicit timeout (for scripts/hooks)
+tg updates poll --timeout 5
 ```
 
 **Polling loop pattern:**
-1. Call `tg updates poll --timeout 30`
+1. Call `tg updates poll` (blocks until updates arrive)
 2. Process returned messages
 3. Calculate next offset: `max(update_id) + 1`
 4. Repeat with `--offset <next_offset>`
@@ -178,7 +178,8 @@ tg message send "$chat_id" "You said: $text" --reply-to "$message_id"
 ```bash
 offset=""
 while true; do
-  result=$(tg updates poll --timeout 30 $offset)
+  # Blocks until updates arrive (no --timeout = infinite polling)
+  result=$(tg updates poll $offset)
 
   # Process updates
   echo "$result" | jq -c '.result[]' | while read update; do

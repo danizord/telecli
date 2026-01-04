@@ -40,7 +40,7 @@ if echo "$result" | grep -qF '"update_id"'; then
 {
   "decision": "block",
   "reason": "New Telegram messages received",
-  "systemMessage": "New Telegram updates received. Process these messages:\n\n\`\`\`json\n$updates\n\`\`\`\n\nRespond to any messages that need a response, then continue polling with: tg updates poll --timeout 30 --offset $new_offset"
+  "systemMessage": "New Telegram updates received. Process these messages:\n\n\`\`\`json\n$updates\n\`\`\`\n\nRespond to any messages that need a response, then continue polling with: tg updates poll --offset $new_offset"
 }
 EOF
 else
